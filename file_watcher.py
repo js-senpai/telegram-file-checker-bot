@@ -26,6 +26,7 @@ class FileWatcher(FileSystemEventHandler):
                     # Read file
                     get_text = file.read()
                 if get_text:
+                    time.sleep(15)
                     # Send message url
                     send_telegram_url = "{url}{token}/sendMessage".format(url=self.config.TELEGRAM_API_URL,
                                                                           token=self.config.TELEGRAM_API_TOKEN)
