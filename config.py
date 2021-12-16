@@ -11,5 +11,7 @@ load_dotenv(dotenv_path)
 class BaseConfig:
     def __init__(self):
         pass
+
     TELEGRAM_API_TOKEN = os.environ.get('TELEGRAM_API_TOKEN', None)
     TELEGRAM_API_URL = os.environ.get('TELEGRAM_API_URL', None)
+    TELEGRAM_GROUP_ID = os.environ.get('TELEGRAM_GROUP_ID', None)
