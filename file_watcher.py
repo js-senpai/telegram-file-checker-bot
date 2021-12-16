@@ -36,6 +36,7 @@ class FileWatcher(FileSystemEventHandler):
                     # If response to telegram has error
                     if not get_response['ok']:
                         raise Exception('Error in send  message to telegram')
+                    os.rename(get_path, get_path.replace('.txt', '_CHECKED.txt'))
         except Exception as e:
             print(f'Error in watch file method method.  {e}')
 
