@@ -2,7 +2,6 @@ import json
 import os
 import re
 import time
-
 import requests
 from watchdog.events import FileSystemEventHandler
 from watchdog.observers import Observer
@@ -16,9 +15,10 @@ class FileWatcher(FileSystemEventHandler):
         self.config = BaseConfig()
 
     def on_created(self, event):
+        print(event)
         try:
             # Get path to file
-            get_path = event.src_path.replace('~','')
+            get_path = event.src_path.replace('~', '')
             # Check if txt
             if bool(re.search(r'.*\.txt', get_path)) and not bool(re.search(r'CHECKED', get_path)):
                 get_text = None
@@ -41,13 +41,12 @@ class FileWatcher(FileSystemEventHandler):
         except Exception as e:
             print(f'Error in watch file method method.  {e}')
 
-
 if __name__ == '__main__':
+    path = os.path.abspath('./files')
     event_handler = FileWatcher()
     observer = Observer()
-    observer.schedule(event_handler, path='./files', recursive=False)
+    observer.schedule(event_handler, path, recursive=False)
     observer.start()
-
     try:
         while True:
             time.sleep(1)

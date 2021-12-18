@@ -1,0 +1,16 @@
+version: '3'
+services:
+  bot:
+    container_name: 'telegram-check-bot'
+    volumes:
+      - ./bot:/bot
+    build:
+      context: ./bot
+      dockerfile: bot.Dockerfile
+  filewatcher:
+    container_name: 'filewatcher-helper-bot'
+    volumes:
+      - ./filewatcher:/filewatcher
+    build:
+      context: ./filewatcher
+      dockerfile: filewatcher.Dockerfile
