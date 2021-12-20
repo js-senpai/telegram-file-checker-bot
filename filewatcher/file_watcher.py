@@ -18,11 +18,12 @@ class FileWatcher(FileSystemEventHandler):
         print(event)
         try:
             # Get path to file
-            get_path = event.src_path.replace('~', '')
+            filter_path = os.path.normpath(event.src_path.replace('~', ''))
+            get_path = os.path.abspath(filter_path)
             # Check if txt
             if bool(re.search(r'.*\.txt', get_path)) and not bool(re.search(r'CHECKED', get_path)):
                 get_text = None
-                with open(get_path, 'r', encoding='utf-8') as file:
+                with open(get_path, 'r') as file:
                     # Read file
                     get_text = file.read()
                 if get_text:
@@ -42,14 +43,14 @@ class FileWatcher(FileSystemEventHandler):
             print(f'Error in watch file method method.  {e}')
 
 if __name__ == '__main__':
-    path = os.path.abspath('./files')
+    path = os.path.abspath(os.path.normpath('./files'))
     event_handler = FileWatcher()
     observer = Observer()
-    observer.schedule(event_handler, path, recursive=False)
+    observer.schedule(event_handler, path, recursive=True)
     observer.start()
     try:
         while True:
             time.sleep(1)
-    except  KeyboardInterrupt:
+    finally:
         observer.stop()
-    observer.join()
+        observer.join()

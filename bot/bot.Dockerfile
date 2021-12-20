@@ -1,5 +1,6 @@
 FROM python:3.7-alpine
 WORKDIR /bot
-COPY . /bot
+COPY requirements.txt .
 RUN pip install -r requirements.txt
-CMD ["python", "bot.py"]
+COPY . .
+CMD ["python","-u", "bot.py"]
