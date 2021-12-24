@@ -2,14 +2,14 @@ version: '3'
 services:
   bot:
     container_name: 'telegram-check-bot'
+    env_file: ./bot/.env
     build:
       context: ./bot
       dockerfile: bot.Dockerfile
   filewatcher:
     container_name: 'filewatcher-helper-bot'
-    restart: 'no'
-    stdin_open: true
-    tty: true
+    restart: 'on-failure'
+    env_file: ./filewatcher/.env
     build:
       context: ./filewatcher
       dockerfile: filewatcher.Dockerfile

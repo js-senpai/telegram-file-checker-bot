@@ -3,4 +3,4 @@ WORKDIR /filewatcher
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 COPY . .
-CMD ["python","file_watcher.py"]
+CMD ["python","-u","file_watcher.py"]

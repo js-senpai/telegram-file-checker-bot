@@ -5,7 +5,7 @@ import time
 import requests
 from watchdog.events import FileSystemEventHandler
 from watchdog.observers import Observer
-
+from pathlib import Path
 from config import BaseConfig
 
 
@@ -13,13 +13,12 @@ class FileWatcher(FileSystemEventHandler):
     def __init__(self):
         super().__init__()
         self.config = BaseConfig()
+        print('File watcher initialization')
 
     def on_created(self, event):
-        print(event)
         try:
             # Get path to file
-            filter_path = os.path.normpath(event.src_path.replace('~', ''))
-            get_path = os.path.abspath(filter_path)
+            get_path = Path(Path.cwd()/event.src_path.replace('~', ''))
             # Check if txt
             if bool(re.search(r'.*\.txt', get_path)) and not bool(re.search(r'CHECKED', get_path)):
                 get_text = None
@@ -43,7 +42,8 @@ class FileWatcher(FileSystemEventHandler):
             print(f'Error in watch file method method.  {e}')
 
 if __name__ == '__main__':
-    path = os.path.abspath(os.path.normpath('./files'))
+    path = Path.cwd()/'files'
+    print(path)
     event_handler = FileWatcher()
     observer = Observer()
     observer.schedule(event_handler, path, recursive=True)
